@@ -195,7 +195,7 @@ const BlogDetails = () => {
             </span>
           </div>
 
-          <div className="blog-like">
+          {/* <div className="blog-like">
             <button
               className="btn btn-like"
               onClick={handleLike}
@@ -204,7 +204,7 @@ const BlogDetails = () => {
               👍 {blog.likes ? blog.likes : 0} {likeLoading ? "..." : ""}
             </button>
             {likeError && <span className="like-error">{likeError}</span>}
-          </div>
+          </div> */}
 
           {blog.tags && blog.tags.length > 0 && (
             <div className="blog-tags">

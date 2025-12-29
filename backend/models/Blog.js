@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
 
 const BlogSchema = new mongoose.Schema(
   {
@@ -43,11 +43,10 @@ const BlogSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true },
-)
+  { timestamps: true }
+);
 
 // Create index for search functionality
-BlogSchema.index({ title: "text", content: "text", summary: "text" })
+BlogSchema.index({ title: "text", content: "text", summary: "text" });
 
-module.exports = mongoose.model("Blog", BlogSchema)
-
+export default mongoose.model("Blog", BlogSchema);

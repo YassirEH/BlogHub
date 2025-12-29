@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for MERN stack blog application",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
@@ -20,4 +21,3 @@
     "nodemon": "^3.0.1"
   }
 }
-

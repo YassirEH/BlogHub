@@ -1,19 +1,28 @@
-const express = require("express")
-const { createBlog, getBlogs, getBlog, updateBlog, deleteBlog, getUserBlogs } = require("../controllers/blogs")
-const { protect, checkBlogOwnership } = require("../middleware/auth")
-const upload = require("../middleware/upload")
+import express from "express";
+import {
+  createBlog,
+  getBlogs,
+  getBlog,
+  updateBlog,
+  deleteBlog,
+  getUserBlogs,
+} from "../controllers/blogs.js";
+import { protect, checkBlogOwnership } from "../middleware/auth.js";
+import upload from "../middleware/upload.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.route("/").get(getBlogs).post(protect, upload.single("image"), createBlog)
+router
+  .route("/")
+  .get(getBlogs)
+  .post(protect, upload.single("image"), createBlog);
 
-router.route("/user").get(protect, getUserBlogs)
+router.route("/user").get(protect, getUserBlogs);
 
 router
   .route("/:id")
   .get(getBlog)
   .put(protect, checkBlogOwnership, upload.single("image"), updateBlog)
-  .delete(protect, checkBlogOwnership, deleteBlog)
+  .delete(protect, checkBlogOwnership, deleteBlog);
 
-module.exports = router
-
+export default router;

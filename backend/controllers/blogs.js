@@ -1,14 +1,14 @@
-const Blog = require("../models/Blog")
-const User = require("../models/User")
-const fs = require("fs")
-const path = require("path")
+import Blog from "../models/Blog.js";
+import User from "../models/User.js";
+import fs from "fs";
+import path from "path";
 
 // @desc    Create new blog
 // @route   POST /api/blogs
 // @access  Private
-exports.createBlog = async (req, res) => {
+export const createBlog = async (req, res) => {
   try {
-    const { title, content, summary, tags, published } = req.body
+    const { title, content, summary, tags, published } = req.body;
 
     // Create blog data object
     const blogData = {
@@ -18,42 +18,42 @@ exports.createBlog = async (req, res) => {
       tags: tags || [],
       published: published !== undefined ? published : true,
       author: req.user.id,
-    }
+    };
 
     // Add image path if file was uploaded
     if (req.file) {
-      blogData.image = `/uploads/${req.file.filename}`
+      blogData.image = `/uploads/${req.file.filename}`;
     }
 
     // Create blog
-    const blog = await Blog.create(blogData)
+    const blog = await Blog.create(blogData);
 
     res.status(201).json({
       success: true,
       data: blog,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 // @desc    Get all blogs
 // @route   GET /api/blogs
 // @access  Public
-exports.getBlogs = async (req, res) => {
+export const getBlogs = async (req, res) => {
   try {
     // Pagination
-    const page = Number.parseInt(req.query.page, 10) || 1
-    const limit = Number.parseInt(req.query.limit, 10) || 10
-    const startIndex = (page - 1) * limit
+    const page = Number.parseInt(req.query.page, 10) || 1;
+    const limit = Number.parseInt(req.query.limit, 10) || 10;
+    const startIndex = (page - 1) * limit;
 
     // Search functionality
-    const search = req.query.search || ""
-    let query = { published: true }
+    const search = req.query.search || "";
+    let query = { published: true };
 
     if (search) {
       query = {
@@ -63,7 +63,7 @@ exports.getBlogs = async (req, res) => {
           { content: { $regex: search, $options: "i" } },
           { summary: { $regex: search, $options: "i" } },
         ],
-      }
+      };
     }
 
     // Execute query
@@ -71,10 +71,10 @@ exports.getBlogs = async (req, res) => {
       .populate("author", "name email")
       .sort({ createdAt: -1 })
       .skip(startIndex)
-      .limit(limit)
+      .limit(limit);
 
     // Get total documents
-    const total = await Blog.countDocuments(query)
+    const total = await Blog.countDocuments(query);
 
     // Pagination result
     const pagination = {
@@ -82,27 +82,27 @@ exports.getBlogs = async (req, res) => {
       pages: Math.ceil(total / limit),
       page,
       limit,
-    }
+    };
 
     res.status(200).json({
       success: true,
       count: blogs.length,
       pagination,
       data: blogs,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 // @desc    Get single blog
 // @route   GET /api/blogs/:id
 // @access  Public
-exports.getBlog = async (req, res) => {
+export const getBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
       .populate("author", "name email")
@@ -112,40 +112,40 @@ exports.getBlog = async (req, res) => {
           path: "user",
           select: "name",
         },
-      })
+      });
 
     if (!blog) {
       return res.status(404).json({
         success: false,
         message: "Blog not found",
-      })
+      });
     }
 
     res.status(200).json({
       success: true,
       data: blog,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 // @desc    Update blog
 // @route   PUT /api/blogs/:id
 // @access  Private
-exports.updateBlog = async (req, res) => {
+export const updateBlog = async (req, res) => {
   try {
-    let blog = await Blog.findById(req.params.id)
+    let blog = await Blog.findById(req.params.id);
 
     if (!blog) {
       return res.status(404).json({
         success: false,
         message: "Blog not found",
-      })
+      });
     }
 
     // Make sure user is blog owner
@@ -153,57 +153,57 @@ exports.updateBlog = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Not authorized to update this blog",
-      })
+      });
     }
 
     // Create update data object
-    const updateData = { ...req.body }
+    const updateData = { ...req.body };
 
     // Handle image upload
     if (req.file) {
       // Delete old image if exists
       if (blog.image) {
-        const oldImagePath = path.join(__dirname, "..", blog.image)
+        const oldImagePath = path.join(__dirname, "..", blog.image);
         if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath)
+          fs.unlinkSync(oldImagePath);
         }
       }
 
       // Add new image path
-      updateData.image = `/uploads/${req.file.filename}`
+      updateData.image = `/uploads/${req.file.filename}`;
     }
 
     // Update blog
     blog = await Blog.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
-    })
+    });
 
     res.status(200).json({
       success: true,
       data: blog,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 // @desc    Delete blog
 // @route   DELETE /api/blogs/:id
 // @access  Private
-exports.deleteBlog = async (req, res) => {
+export const deleteBlog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id)
+    const blog = await Blog.findById(req.params.id);
 
     if (!blog) {
       return res.status(404).json({
         success: false,
         message: "Blog not found",
-      })
+      });
     }
 
     // Make sure user is blog owner
@@ -211,64 +211,66 @@ exports.deleteBlog = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Not authorized to delete this blog",
-      })
+      });
     }
 
     // Delete image if exists
     if (blog.image) {
-      const imagePath = path.join(__dirname, "..", blog.image)
+      const imagePath = path.join(__dirname, "..", blog.image);
       if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath)
+        fs.unlinkSync(imagePath);
       }
     }
 
-    await blog.deleteOne()
+    await blog.deleteOne();
 
     res.status(200).json({
       success: true,
       data: {},
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 // @desc    Get user blogs
 // @route   GET /api/blogs/user
 // @access  Private
-exports.getUserBlogs = async (req, res) => {
+export const getUserBlogs = async (req, res) => {
   try {
-    const page = Number.parseInt(req.query.page, 10) || 1
-    const limit = Number.parseInt(req.query.limit, 10) || 10
-    const startIndex = (page - 1) * limit
+    const page = Number.parseInt(req.query.page, 10) || 1;
+    const limit = Number.parseInt(req.query.limit, 10) || 10;
+    const startIndex = (page - 1) * limit;
 
-    const blogs = await Blog.find({ author: req.user.id }).sort({ createdAt: -1 }).skip(startIndex).limit(limit)
+    const blogs = await Blog.find({ author: req.user.id })
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(limit);
 
-    const total = await Blog.countDocuments({ author: req.user.id })
+    const total = await Blog.countDocuments({ author: req.user.id });
 
     const pagination = {
       total,
       pages: Math.ceil(total / limit),
       page,
       limit,
-    }
+    };
 
     res.status(200).json({
       success: true,
       count: blogs.length,
       pagination,
       data: blogs,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error",
       error: error.message,
-    })
+    });
   }
-}
-
+};

@@ -1,4 +1,4 @@
-import "./Footer.css"
+import "./Footer.css";
 
 const Footer = () => {
   return (
@@ -7,7 +7,13 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <h3>BlogHub</h3>
-            <p>BlogHub is a community-driven platform where writers, thinkers, and creators can share their ideas, experiences, and stories with a wide audience. Whether you're a seasoned blogger or just getting started, BlogHub provides the tools to express yourself and connect with others.</p>
+            <p>
+              BlogHub is a community-driven platform where writers, thinkers,
+              and creators can share their ideas, experiences, and stories with
+              a wide audience. Whether you're a seasoned blogger or just getting
+              started, BlogHub provides the tools to express yourself and
+              connect with others.
+            </p>
           </div>
 
           <div className="footer-section">
@@ -29,20 +35,25 @@ const Footer = () => {
           </div>
 
           <div className="footer-section">
-  <h4>Contact</h4>
-  <p>Email: <a href="mailto:mounikakonala2005@gmail.com">mounikakonala2005@gmail.com</a></p>
-  <p>Phone: <a href="tel:+16301114320">630-111-4320</a></p>
-</div>
-
+            <h4>Contact</h4>
+            <p>
+              Email:{" "}
+              <a href="mailto:bloghub.team@gmail.com">
+                mounikakonala2005@gmail.com
+              </a>
+            </p>
+            <p>
+              Phone: <a href="tel:+212688950954">+212 688950954</a>
+            </p>
+          </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Mounika's BlogHub. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} BlogHub. All rights reserved.</p>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
-
+export default Footer;

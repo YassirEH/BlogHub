@@ -1,11 +1,7 @@
-import Blog from "../models/Blog.js";
-import User from "../models/User.js";
 import fs from "fs";
 import path from "path";
+import Blog from "../models/Blog.js";
 
-// @desc    Create new blog
-// @route   POST /api/blogs
-// @access  Private
 export const createBlog = async (req, res) => {
   try {
     const { title, content, summary, tags, published } = req.body;
@@ -41,9 +37,6 @@ export const createBlog = async (req, res) => {
   }
 };
 
-// @desc    Get all blogs
-// @route   GET /api/blogs
-// @access  Public
 export const getBlogs = async (req, res) => {
   try {
     // Pagination
@@ -99,9 +92,6 @@ export const getBlogs = async (req, res) => {
   }
 };
 
-// @desc    Get single blog
-// @route   GET /api/blogs/:id
-// @access  Public
 export const getBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
@@ -134,9 +124,6 @@ export const getBlog = async (req, res) => {
   }
 };
 
-// @desc    Update blog
-// @route   PUT /api/blogs/:id
-// @access  Private
 export const updateBlog = async (req, res) => {
   try {
     let blog = await Blog.findById(req.params.id);
@@ -192,9 +179,6 @@ export const updateBlog = async (req, res) => {
   }
 };
 
-// @desc    Delete blog
-// @route   DELETE /api/blogs/:id
-// @access  Private
 export const deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -237,9 +221,6 @@ export const deleteBlog = async (req, res) => {
   }
 };
 
-// @desc    Get user blogs
-// @route   GET /api/blogs/user
-// @access  Private
 export const getUserBlogs = async (req, res) => {
   try {
     const page = Number.parseInt(req.query.page, 10) || 1;
@@ -265,6 +246,35 @@ export const getUserBlogs = async (req, res) => {
       count: blogs.length,
       pagination,
       data: blogs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+export const likeBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    // Optionally, prevent multiple likes per user by tracking user IDs in a likes array
+    // For now, just increment the likes count
+    blog.likes = (blog.likes || 0) + 1;
+    await blog.save();
+
+    res.status(200).json({
+      success: true,
+      data: { likes: blog.likes },
     });
   } catch (error) {
     res.status(500).json({

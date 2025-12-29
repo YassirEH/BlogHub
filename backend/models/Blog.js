@@ -42,6 +42,16 @@ const BlogSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    likes: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    views: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true }
 );

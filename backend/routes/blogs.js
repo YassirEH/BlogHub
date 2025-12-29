@@ -9,6 +9,7 @@ import {
 } from "../controllers/blogs.js";
 import { protect, checkBlogOwnership } from "../middleware/auth.js";
 import upload from "../middleware/upload.js";
+import { likeBlog } from "../controllers/blogs.js";
 
 const router = express.Router();
 
@@ -24,5 +25,9 @@ router
   .get(getBlog)
   .put(protect, checkBlogOwnership, upload.single("image"), updateBlog)
   .delete(protect, checkBlogOwnership, deleteBlog);
+
+// Like a blog
+
+router.route("/:id/like").post(protect, likeBlog);
 
 export default router;

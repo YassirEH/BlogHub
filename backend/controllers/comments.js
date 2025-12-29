@@ -1,9 +1,6 @@
 import Comment from "../models/Comment.js";
 import Blog from "../models/Blog.js";
 
-// @desc    Add comment
-// @route   POST /api/comments
-// @access  Private
 export const addComment = async (req, res) => {
   try {
     const { content, blogId } = req.body;
@@ -44,9 +41,6 @@ export const addComment = async (req, res) => {
   }
 };
 
-// @desc    Get comments for a blog
-// @route   GET /api/comments/:blogId
-// @access  Public
 export const getComments = async (req, res) => {
   try {
     const comments = await Comment.find({ blog: req.params.blogId })
@@ -67,9 +61,6 @@ export const getComments = async (req, res) => {
   }
 };
 
-// @desc    Delete comment
-// @route   DELETE /api/comments/:id
-// @access  Private
 export const deleteComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);

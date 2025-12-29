@@ -2,7 +2,7 @@
 
 ![MERN Stack](https://img.shields.io/badge/MERN-Stack-brightgreen)
 
-Welcome to the **Blogger Website Using MERN** repository! This project is a full-stack application built with the MERN stack (MongoDB, Express.js, React.js, Node.js). It provides a platform for users to create, read, update, and delete (CRUD) blog posts, complete with user authentication and image uploads. 
+Welcome to the **Blogger Website Using MERN** repository! This project is a full-stack application built with the MERN stack (MongoDB, Express.js, React.js, Node.js). It provides a platform for users to create, read, update, and delete (CRUD) blog posts, complete with user authentication and image uploads.
 
 For the latest releases, check out our [Releases section](https://github.com/SubhanAkhter/blogger_website_using_MERN/releases).
 
@@ -176,5 +176,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - Thanks to the MERN community for their support and resources.
 - Special thanks to all contributors who make this project better.
-
-For the latest releases, check out our [Releases section](https://github.com/SubhanAkhter/blogger_website_using_MERN/releases).

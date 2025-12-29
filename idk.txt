@@ -1,0 +1,83 @@
+Here’s an overview of the significant features in your MERN blog app, based on the provided code and file structure:
+
+Backend Features
+1. Blog CRUD Operations
+Create Blog:
+Authenticated users can create blogs, optionally uploading an image. Blog data includes title, content, summary, tags, published status, and author.
+Read Blogs:
+Anyone can fetch a paginated list of published blogs, search blogs, or fetch a single blog by ID. Blogs are populated with author info and comments.
+Update Blog:
+Only the blog owner can update their blog, including changing the image.
+Delete Blog:
+Only the blog owner can delete their blog, and the image is also deleted if present.
+Get User Blogs:
+Authenticated users can fetch a paginated list of their own blogs.
+2. Like/Unlike Blog
+Toggle Like:
+Authenticated users can like or unlike a blog. The backend tracks which users have liked each blog (using a likes array of user IDs). The same endpoint toggles the like status.
+3. Comments
+Add Comment:
+Authenticated users can add comments to blogs.
+Delete Comment:
+Users can delete their own comments.
+Fetch Comments:
+Anyone can fetch comments for a blog.
+4. Authentication & Authorization
+JWT Auth:
+Routes like creating, updating, deleting blogs, liking, and commenting are protected by JWT authentication.
+Ownership Checks:
+Middleware ensures only the blog owner can update or delete their blog.
+5. File Uploads
+Image Upload:
+Blogs can have an image uploaded and stored on the server.
+Frontend Features
+1. Blog Listing & Details
+Blog List:
+Paginated, searchable list of blogs with author and summary.
+Blog Details:
+Full blog post view with author, date, tags, image, content, comments, and like button.
+2. Blog Management
+Create/Edit Blog:
+Authenticated users can create or edit their blogs, including uploading an image.
+Delete Blog:
+Blog owners can delete their blogs.
+3. Like/Unlike Blog
+Like Button:
+Authenticated users can like or unlike a blog. The like count updates in real time.
+4. Comments
+Add Comment:
+Authenticated users can add comments to a blog.
+Delete Comment:
+Users can delete their own comments.
+Comment List:
+Comments are displayed under each blog post.
+5. User Authentication
+Login/Register:
+Users can register and log in. JWT tokens are stored and sent with protected requests.
+User Context:
+The app uses React context to manage authentication state.
+6. User Profile
+Profile Page:
+Users can view their profile and their own blogs.
+7. UI/UX
+Loading & Error States:
+Spinners and error messages are shown during data fetching or on errors.
+Navigation:
+Uses React Router for navigation between pages.
+Responsive Design:
+CSS is used for styling and layout.
+API Layer
+api.js:
+Centralizes all API calls (blogs, comments, user profile), handles errors, and attaches auth tokens where needed.
+Summary Table
+Feature	Backend	Frontend
+Blog CRUD	Yes	Yes
+Like/Unlike Blog	Yes (toggle)	Yes (button)
+Comments	Yes	Yes
+Auth (JWT)	Yes	Yes (context)
+File Upload	Yes	Yes
+User Profile	Yes	Yes
+Pagination/Search	Yes	Yes
+Ownership Checks	Yes	Yes (UI logic)
+In summary:
+Your app is a full-featured blogging platform with authentication, blog and comment management, image uploads, and interactive features like liking/unliking posts, all built with the MERN stack.

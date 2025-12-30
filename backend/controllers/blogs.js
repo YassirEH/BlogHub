@@ -94,7 +94,7 @@ export const getBlogs = async (req, res) => {
 
 export const getBlog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id)
+    let blog = await Blog.findById(req.params.id)
       .populate("author", "name email")
       .populate({
         path: "comments",
@@ -110,6 +110,10 @@ export const getBlog = async (req, res) => {
         message: "Blog not found",
       });
     }
+
+    // Increment views by 1
+    blog.views = (blog.views || 0) + 1;
+    await blog.save();
 
     res.status(200).json({
       success: true,

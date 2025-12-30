@@ -1,19 +1,23 @@
-import { Link } from "react-router-dom"
-import { API_URL } from "../../config"
-import "./BlogCard.css"
+import { Link } from "react-router-dom";
+import { API_URL } from "../../config";
+import "./BlogCard.css";
 
 const BlogCard = ({ blog }) => {
   // Format date
   const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" }
-    return new Date(dateString).toLocaleDateString(undefined, options)
-  }
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="blog-card">
       {blog.image && (
         <div className="blog-card-image">
-          <img src={`${API_URL}${blog.image}`} alt={blog.title} className="blog-image" />
+          <img
+            src={`${API_URL}${blog.image}`}
+            alt={blog.title}
+            className="blog-image"
+          />
         </div>
       )}
       <div className="blog-card-content">
@@ -24,11 +28,18 @@ const BlogCard = ({ blog }) => {
         <div className="blog-card-meta">
           <span className="blog-card-date">{formatDate(blog.createdAt)}</span>
           <span className="blog-card-author">
-            By <Link to={`/profile/${blog.author._id}`}>{blog.author.name}</Link>
+            By
+            <Link to={`/profile/${blog.author._id}`}>{blog.author.name}</Link>
           </span>
         </div>
 
         <p className="blog-card-summary">{blog.summary}</p>
+        <div className="blog-card-stats" style={{ marginBottom: "20px" }}>
+          <span className="blog-card-views">👁️ {blog.views || 0} Views</span>
+          <span className="blog-card-likes" style={{ marginLeft: "10px" }}>
+            ❤️ {blog.likes || 0} Likes
+          </span>
+        </div>
 
         <div className="blog-card-footer">
           <Link to={`/blogs/${blog._id}`} className="blog-card-read-more">
@@ -47,8 +58,7 @@ const BlogCard = ({ blog }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BlogCard
-
+export default BlogCard;

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { fetchBlogById, deleteBlog, likeBlog } from "../services/api"; // update import
+import { fetchBlogById, deleteBlog, likeBlog } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { API_URL } from "../config";
 import CommentForm from "../components/comments/CommentForm";
@@ -182,29 +182,72 @@ const BlogDetails = () => {
         <header className="blog-header">
           <h1 className="blog-title">{blog.title}</h1>
 
-          <div className="blog-meta">
-            <span className="blog-date">{formatDate(blog.createdAt)}</span>
-            <span className="blog-author">
-              By{" "}
-              <Link
-                to={`/profile/${blog.author._id}`}
-                className="blog-author-link"
-              >
-                {blog.author.name}
-              </Link>
-            </span>
-          </div>
-
-          {/* <div className="blog-like">
-            <button
-              className="btn btn-like"
-              onClick={handleLike}
-              disabled={likeLoading}
+          <div
+            className="blog-meta"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span className="blog-date">
+                {formatDate(blog.createdAt)}By{" "}
+                {blog.author && (
+                  <Link
+                    to={`/profile/${blog.author._id}`}
+                    className="blog-author-link"
+                  >
+                    {blog.author.name}
+                  </Link>
+                )}
+              </span>
+            </div>
+            <div
+              className="blog-like-meta"
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
             >
-              👍 {blog.likes ? blog.likes : 0} {likeLoading ? "..." : ""}
-            </button>
-            {likeError && <span className="like-error">{likeError}</span>}
-          </div> */}
+              <button
+                className="btn btn-like heart-btn"
+                onClick={handleLike}
+                disabled={likeLoading}
+                aria-label="Like"
+                style={{
+                  fontSize: "1.5rem",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  outline: "none",
+                  transition: "color 0.2s",
+                  verticalAlign: "middle",
+                  marginRight: "2px",
+                }}
+              >
+                <span role="img" aria-label="heart">
+                  {/* {blog.likedByUser ? "❤️" : "🤍"} */}
+                  {blog.likedByUser ? "❤️" : "❤️"}
+                </span>
+                <span style={{ marginLeft: 6, fontWeight: 500, color: "#888" }}>
+                  {blog.likes ? blog.likes : 0}
+                </span>
+                {likeLoading ? (
+                  <span style={{ marginLeft: 4 }}>...</span>
+                ) : null}
+              </button>
+              <span
+                className="blog-views"
+                style={{
+                  color: "#888",
+                  fontSize: "1rem",
+                  verticalAlign: "middle",
+                }}
+              >
+                👁️ {blog.views ? blog.views : 0} views
+              </span>
+              {likeError && <span className="like-error">{likeError}</span>}
+            </div>
+          </div>
 
           {blog.tags && blog.tags.length > 0 && (
             <div className="blog-tags">
